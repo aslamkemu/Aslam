@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Aslam.Models.Movie>
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies in Store</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="h3 text-center">Movies</th>
+        </tr>
+        <tr>
+            <th>Movies Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ( var movie in Model)
+        {
+            <tr>
+                <td>@movie.Name</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

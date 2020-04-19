@@ -4,35 +4,55 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Aslam.Models;
+using Aslam.ViewModels;
+using System.Data.Entity;
 
 namespace Aslam.Controllers
 {
+
+
     public class MoviesController : Controller
     {
         // GET: Movies
+
+        private ApplicationDbContext _context;
+
+        public MoviesController()
+        {
+            _context = new ApplicationDbContext();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
+
+        public ViewResult Index()
+        {
+            var movies = _context.Movies;
+
+            return View(movies);
+        }
+
+       
+
         public ActionResult Random()
         {
             var movie = new Movie() { Name = "Game of Thrones!" };
-            return View(movie);
-        }
-
-        public ActionResult Edit(int Id)
-        {
-            return Content("id=" + Id);
-
-        }
-
-        public ActionResult Index(int? pageIndex, string sortBy)
-        {
-            if(!pageIndex.HasValue)
+           
+            var customers = new List<Customer>
             {
-                pageIndex = 1;
-            }
-            if(String.IsNullOrWhiteSpace(sortBy))
+                new Customer  { Name = "Customer 1" },
+                new Customer  { Name = "Customer 2" }
+            };
+
+            var viewModel = new RandomMovieViewModel
             {
-                sortBy = "Name";
-            }
-            return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
-        }
+                Movie = movie,
+                Customers = customers
+            };
+            return View(viewModel);
+        }        
+
     }
 }
